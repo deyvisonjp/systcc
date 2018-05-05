@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{tccBean.carregar()}" type="preRenderView"/>
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h4> <i> Cadastro de TCC's </i> <hr/> </h4>
+
+            <h:form id="frmCadTcc">
+
+                <p:growl id="growl" showDetail="true" />
+                
+                
+                <h:panelGrid id="pnlCadTcc" columns="2" cellspacing="8px"  columnClasses="colunaEsquerda,colunaDireita" >
+
+                    <h:outputText  value="Id:"/>
+                    <p:inputText disabled="true" size="15" placeholder="Código"/>
+
+                    <h:outputText value="Tema:"/>
+                    <p:inputText value="#{tccBean.tccCad.tema}" size="93"/>
+
+                    <h:outputText value="Data de inicio:"/>
+                    <p:calendar size="15" id="data_inicio" value="#{tccBean.tccCad.data}" showOn="button" mask="true" pattern="dd-MM-yyyy"  locale="pt"/>
+
+                    <h:outputText  value="Descrição:"/>
+                    <p:inputTextarea cols="90" rows="8" value="#{tccBean.tccCad.descricao}" placeholder="Entre com a descrição do Trabalho"/>
+
+                    <h:outputText  value="Arquivo TCC:"/>
+                    <p:button value="Carregar arquivo" />
+
+                    <h:outputText  value="Nota Final:"/>
+                    <p:inputMask mask="99.99" id="nota" value="#{tccBean.tccCad.nota}"/>
+
+
+
+                </h:panelGrid>
+
+                <img src="resources/img/logo_small.png"  style="position:absolute ;width: 210px; margin-top: -210px; margin-left: 810px"/>
+
+                <br/>
+                <h:panelGrid columns="3">
+
+                    <p:commandButton value="Salvar" action="#{tccBean.salvar()}"
+                                     update="frmCadTcc" icon="ui-icon-disk"/>
+
+                    <p:commandButton value="Listar TCC's" immediate="true" action="#{tccBean.listar()}" />
+
+                </h:panelGrid>
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

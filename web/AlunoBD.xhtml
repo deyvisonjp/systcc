@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{alunoBean.carregar}" type="preRenderView" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h4> <i> Relatório Alunos </i> <hr/> </h4>
+
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:dataTable id="tblAluno" var="aluno" value="#{alunoBean.listaAlunos}"
+                             filteredValue="#{alunoBean.listaAlunosFiltro}"
+                             selectionMode="single" selection="#{alunoBean.selectAluno}" 
+                             rowKey="#{aluno.matricula}"
+                             rows="10" paginator="true">
+
+                    <f:facet name="header">
+                        Lista de Alunos
+                    </f:facet>
+
+                    <p:column headerText="Matrícula" sortBy="#{aluno.matricula}" width="8%">
+                        <h:outputText value="#{aluno.matricula}" />
+                    </p:column>
+
+                    <p:column headerText="CPF" sortBy="#{aluno.cpf}">
+                        <h:outputText value="#{aluno.cpf}" />
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{aluno.nome}" filterBy="#{aluno.nome}">
+                        <h:outputText value="#{aluno.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Login" sortBy="#{aluno.login}">
+                        <h:outputText value="#{aluno.login}" />
+                    </p:column>
+
+                    <p:column headerText="Polo" sortBy="#{aluno.polo}" filterBy="#{aluno.polo}">
+                        <h:outputText value="#{aluno.polo}" />
+                    </p:column>
+
+                    <p:column headerText="Curso" sortBy="#{aluno.curso}" filterBy="#{aluno.curso}">
+                        <h:outputText value="#{aluno.curso}" />
+                    </p:column>
+
+                    <p:column headerText="TCC" width="5%">
+                        <h:outputText value="#{aluno.tcc.id_tcc}" />
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton process="tblAluno" value="Excluir" id="btnExcluir" update=":form:alunoDetail" icon="ui-icon-trash" oncomplete="PF('alunoDialog').show()" />
+                        <p:commandButton process="tblAluno" value="Editar" id="btnEditar" update=":form:alunoDetailEditar" icon="ui-icon-pencil" oncomplete="PF('alunoDialogEditar').show()" />
+                        <p:commandButton action="AlunoCad.xhtml" value="Novo" />
+
+
+                    </f:facet>
+
+                </p:dataTable>
+
+                <!-- DIALOG PARA EXCLUSÃO ================================= -->
+                <p:dialog header="Deseja relamente excluir? " widgetVar="alunoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="alunoDetail" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty alunoBean.selectAluno}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula" />
+                                <h:outputText value="#{alunoBean.selectAluno.matricula}" />
+
+                                <h:outputText value="Nome" />
+                                <h:outputText value="#{alunoBean.selectAluno.nome}" />
+
+                                <h:outputText value="CPF " />
+                                <h:outputText value="#{alunoBean.selectAluno.cpf}"/>
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Sim" 
+                                         actionListener="#{alunoBean.excluir()}" 
+                                         ajax="false"
+                                         onclick="alunoDialog.window.close()"
+                                         update="tblAluno" icon="ui-icon-trash"/>
+
+
+                        <p:commandButton value="Não" immediate="true"
+                                         onclick="alunoDialog.window.close()"/>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+                <!-- DIALOG PARA EDIÇÃO ================================= -->
+                <p:dialog header="Faça as alterções necessárias" widgetVar="alunoDialogEditar" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="alunoDetailEditar" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty alunoBean.selectAluno}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula:"/>
+                                <p:inputText size="8" id="Matricula" disabled="true" value="#{alunoBean.selectAluno.matricula}" placeholder="#{alunoBean.selectAluno.matricula}"/>
+
+                                <h:outputText value="CPF:" />
+                                <p:inputMask mask="999.999.999-99" size="14" id="txtCPF" value="#{alunoBean.selectAluno.cpf}"/>
+
+                                <h:outputText value="Nome:" style="text-align: right" />
+                                <p:inputText size="50" id="txtNome" value="#{alunoBean.selectAluno.nome}"/>
+
+                                <h:outputText value="Login:" />
+                                <p:inputText size="50" value="#{alunoBean.selectAluno.login}"  id="txtLogin"/>
+
+                                <h:outputText value="Senha:" />
+                                <p:password size="20" id="txtSenha"  feedback="true" 
+                                            placeholder="*********"
+                                            value="#{alunoBean.selectAluno.senha}"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Confirmação de senha: " />
+                                <p:password size="20" id="txtConfSenha"  feedback="true"
+                                            placeholder="*********"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Curso" />
+                                <p:inputText maxlength="30" size="40" value="#{alunoBean.selectAluno.curso}"   />
+
+                                <h:outputText value="Polo:" />
+                                <p:inputText maxlength="30" size="40" value="#{alunoBean.selectAluno.polo}" />
+
+
+                                <h:outputText value="TCC"/>
+                                <p:selectOneMenu value="#{alunoBean.selectAluno.tcc}" converter="tccConverter">
+                                    <f:selectItem itemValue="" itemLabel="Selecione um TCC"/>
+                                    <f:selectItems value="#{alunoBean.listaTcc}" var="tcc"
+                                                   itemValue="#{tcc}" itemLabel="#{tcc.id_tcc} - #{tcc.tema}"/>
+                                </p:selectOneMenu>
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Confirmar" 
+                                         actionListener="#{alunoBean.editar()}" 
+                                         icon="ui-icon-pencil" update="tblAluno" 
+                                         onclick="alunoDialogEditar.window.close()"
+                                         />
+
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+
+
+        </ui:define>    
+
+    </ui:composition>
+
+</html>
+

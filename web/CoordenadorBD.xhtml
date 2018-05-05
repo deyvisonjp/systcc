@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{coordenadorBean.carregar}" type="preRenderView" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h4> <i> Relatório Coordenadores </i> <hr/> </h4>
+
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:dataTable id="tblCoordenador" var="coordenador" value="#{coordenadorBean.listaCoordenador}"
+                             filteredValue="#{coordenadorBean.listaCoordenadorFiltro}"
+                             selectionMode="single" selection="#{coordenadorBean.selectCoordenador}" 
+                             rowKey="#{coordenador.matricula}"
+                             rows="10" paginator="true">
+
+                    <f:facet name="header">
+                        Lista de Coordenadores
+                    </f:facet>
+
+                    <p:column headerText="Matrícula" sortBy="#{coordenador.matricula}" width="8%">
+                        <h:outputText value="#{coordenador.matricula}" />
+                    </p:column>
+
+                    <p:column headerText="CPF" sortBy="#{coordenador.cpf}">
+                        <h:outputText value="#{coordenador.cpf}" />
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{coordenador.nome}" filterBy="#{coordenador.nome}">
+                        <h:outputText value="#{coordenador.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Login" sortBy="#{coordenador.login}">
+                        <h:outputText value="#{coordenador.login}" />
+                    </p:column>
+
+                    <p:column headerText="Formação Acadêmica" sortBy="#{coordenador.formacao_academica}" filterBy="#{coordenador.formacao_academica}">
+                        <h:outputText value="#{coordenador.formacao_academica}" />
+                    </p:column>
+
+
+                    <f:facet name="footer">
+                        <p:commandButton process="tblCoordenador" value="Excluir" id="btnExcluir" update=":form:coordenadorDetail" icon="ui-icon-trash" oncomplete="PF('coordenadorDialog').show()" />
+                        <p:commandButton process="tblCoordenador" value="Editar" id="btnEditar" update=":form:coordenadorDetailEditar" icon="ui-icon-pencil" oncomplete="PF('coordenadorDialogEditar').show()" />
+                        <p:commandButton action="CoordenadorCad.xhtml" value="Novo" />
+
+
+                    </f:facet>
+
+                </p:dataTable>
+                <!-- DIALOG PARA EXCLUSÃO ================================= -->
+                <p:dialog header="Deseja relamente excluir? " widgetVar="coordenadorDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="coordenadorDetail" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty coordenadorBean.selectCoordenador}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula" />
+                                <h:outputText value="#{coordenadorBean.selectCoordenador.matricula}" />
+
+                                <h:outputText value="Nome" />
+                                <h:outputText value="#{coordenadorBean.selectCoordenador.nome}" />
+
+                                <h:outputText value="CPF " />
+                                <h:outputText value="#{coordenadorBean.selectCoordenador.cpf}"/>
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Sim" 
+                                         actionListener="#{coordenadorBean.excluir()}" 
+                                         onclick="coordenadorDialog.window.close()"
+                                         update="tblCoordenador" icon="ui-icon-trash"/>
+
+
+                        <p:commandButton value="Não" immediate="true"
+                                         ajax="false"
+                                         onclick="coordenadorDialog.window.close()"/>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+                <!-- DIALOG PARA EDIÇÃO ================================= -->
+                <p:dialog header="Faça as alterções necessárias" widgetVar="coordenadorDialogEditar" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="coordenadorDetailEditar" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty coordenadorBean.selectCoordenador}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula:"/>
+                                <p:inputText size="8" id="Matricula" disabled="true" value="#{coordenadorBean.selectCoordenador.matricula}" placeholder="#{coordenadorBean.selectCoordenador.matricula}"/>
+
+                                <h:outputText value="CPF:" />
+                                <p:inputMask mask="999.999.999-99" size="14" id="txtCPF" value="#{coordenadorBean.selectCoordenador.cpf}"/>
+
+                                <h:outputText value="Nome:" style="text-align: right" />
+                                <p:inputText size="50" id="txtNome" value="#{coordenadorBean.selectCoordenador.nome}"/>
+
+                                <h:outputText value="Login:" />
+                                <p:inputText size="50" value="#{coordenadorBean.selectCoordenador.login}"  id="txtLogin"/>
+
+                                <h:outputText value="Senha:" />
+                                <p:password size="20" id="txtSenha"  feedback="true" 
+                                            placeholder="*********"
+                                            value="#{coordenadorBean.selectCoordenador.senha}"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Confirmação de senha: " />
+                                <p:password size="20" id="txtConfSenha"  feedback="true"
+                                            placeholder="*********"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Formação Academica" />
+                                <p:inputText maxlength="50" size="50" value="#{coordenadorBean.selectCoordenador.formacao_academica}"   />
+
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Confirmar" 
+                                         actionListener="#{coordenadorBean.editar()}" 
+                                         icon="ui-icon-pencil" update="tblCoordenador" 
+                                         onclick="coordenadorDialogEditar.window.close()"
+                                         />
+
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+
+
+        </ui:define>    
+
+    </ui:composition>
+
+</html>
+

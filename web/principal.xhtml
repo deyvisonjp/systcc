@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:insert name="metadata"/>
+    
+    <h:head>
+        <title>Template - Sistema TCC 1.0</title>
+        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+        <h:outputStylesheet library="css" name="style_prime.css"/>
+        <h:outputScript library="js" name="locale-primefaces.js"/>
+    </h:head>
+
+    <h:body>
+
+        <p:growl id="msgGlobal"/>
+
+        <div id="inteface">
+            <hr style="height: 8px; background-color: #0478c5;box-shadow: 0px 1px 1px; margin: 0px;"/>
+
+            <!--//CABEÇALHO =========================================================================================-->
+            <div id="cabecalho">
+                <ui:insert name="header">
+                    <img style="position:absolute; left:0px; padding: 20px" src="resources/img/logo_small.png"/>
+                </ui:insert>
+            </div>
+            <img class="icones_cab"  src="resources/img/icones_cab.png"/>
+
+            <hr style="height: 8px; background-color: #0478c5; box-shadow: 0px -1px 1px;"/>
+
+
+            <!--MENU LATERAL ======================================================================================-->
+            <div id="aside">
+                <ui:insert name="menu_lateral">
+                    <h:form>
+                        <p:menu toggleable="true">
+
+                            <p:menuitem value="Página Inicial" url="principal.xhtml" icon="ui-icon-home"/>
+
+                            <p:submenu label="Cadastros">
+                                <p:menuitem value="Aluno" url="AlunoCad.xhtml" />
+                                <p:menuitem value="Orientador" url="OrientadorCad.xhtml" />
+                                <p:menuitem value="Coordenador" url="CoordenadorCad.xhtml" />
+                                <p:menuitem value="Avaliador" url="AvaliadorCad.xhtml" />
+                                <p:menuitem value="TCC" url="TccCad.xhtml"/>
+                                
+                            </p:submenu>
+
+                            <p:submenu label="Etapas">
+                                <p:menuitem value="Etapa 1" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
+                                <p:menuitem value="Etapa 2" url="http://www.primefaces.org/documentation.html" />
+                                <p:menuitem value="Etapa 3" url="http://forum.primefaces.org/"/>
+                                <p:menuitem value="Etapa 4" url="http://forum.primefaces.org/"/>
+                            </p:submenu>
+
+                            <p:menuitem value="Mensagem"  icon="ui-icon ui-icon-comment"/>
+
+                            <p:submenu label="Biblioteca">
+                                <p:menuitem value="2016-2017" ajax="false" icon="ui-icon ui-icon-clipboard"/>
+                                <p:menuitem value="2013-2015" ajax="false" icon="ui-icon ui-icon-clipboard"/>
+                                <p:menuitem value="2010-2012" ajax="false" icon="ui-icon ui-icon-clipboard"/>
+                            </p:submenu>
+
+                            <p:menuitem  value="Banca" ajax="false" icon="ui-icon ui-icon-check"/>
+
+                            <p:submenu label="Configurações">
+                                <p:menuitem value="Tempo" ajax="false" icon="ui-icon ui-icon-play"/>
+                                <p:menuitem value="Editar perfil" ajax="false" icon="ui-icon ui-icon-person"/>
+                                <p:menuitem value="Avisos" ajax="false" icon="ui-icon ui-icon-alert"/>
+                            </p:submenu>
+
+
+                        </p:menu>
+
+                    </h:form>
+                </ui:insert>
+            </div>
+
+            <!--CONTEUDO ==============================================================================-->
+            <div id="content">
+                <ui:insert name="content">
+                    <h:form id="form">           
+                        <p:growl id="msgs" showDetail="true" />
+
+                        <h3 style="margin-top:0">Bem Vindo ao Sistema de Gerenciamento de TCC's</h3>
+                        <p:accordionPanel>
+                            <p:tab title="Sobre o TCC">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p> O TCC exige dedicação e trabalho contínuos, o tempo de dedicação necessário é normalmente superior ao das demais disciplinas, pois escrever é trabalhoso. O tempo é suficiente, mas é justo, portanto não percam tempo.</p>
+                                    <p>O material incluído na plataforma está disponível nos "Cadernos Didáticos" da disciplina, que contém: </p>
+
+                                    <p>Guia do TCC: inclui as informações necessárias para o TCC, cronograma, etapas de desenvolvimento do trabalho (essas etapas valem pontos na nota final, portanto não percam as datas), seleção de temas, escrita do trabalho, entrega do mesmo, dinâmica de construção, principais dúvidas... Portanto, leiam atentamente as informações contidas nele.</p>
+                                    <ul type="disc">
+                                        <li>Modelo para MSWord: neste arquivo estão incluídos todos os formatos para a elaboração do trabalho.</li>
+                                        <li>Modelo para OpenDocument: é uma cópia do anterior, mas no formato OpenOffice.</li>
+                                        <li>Tutorial para o acesso ao portal da CAPES: para busca de referências para embasar os trabalhos.</li>
+                                    </ul>
+                                    <p>Não demorem nos passos iniciais, pois o tempo é suficiente, mas justo para a conclusão do trabalho. </p>
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Outros Trabalhos">
+                                <h:panelGrid columns="2" cellpadding="10">
+
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Manual do sistema">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p> O TCC exige dedicação e trabalho contínuos, o tempo de dedicação necessário é normalmente superior ao das demais disciplinas, pois escrever é trabalhoso. O tempo é suficiente, mas é justo, portanto não percam tempo.</p>
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </h:form>
+
+                </ui:insert>
+            </div>
+
+            <!--RODAPÉ ======================================================================================-->
+            <footer>
+                <div class="footer" position="south">
+                    <ui:insert name="footer">
+                        <center>
+                            <p> Trabalho de Coclusão de Curso</p>
+                            <p> Por: Deyvison Jose de Paula &cup; Maurílio Costa Bastos</p>
+                            <p> CEDERJ (Itaperuna) - UFF - SEM. 01-2018</p>
+                        </center>
+                    </ui:insert>
+                </div>
+            </footer>
+
+        </div>
+
+    </h:body>
+
+</html>
+
