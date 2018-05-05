@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{orientadorBean.carregar}" type="preRenderView" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h4> <i> Relatório Orientadores </i> <hr/> </h4>
+
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:dataTable id="tblOrientador" var="orientador" value="#{orientadorBean.listaOrientador}"
+                             filteredValue="#{orientadorBean.listaOrientadorFiltro}"
+                             selectionMode="single" selection="#{orientadorBean.selectOrientador}" 
+                             rowKey="#{orientador.matricula}"
+                             rows="10" paginator="true">
+
+                    <f:facet name="header">
+                        Lista de Orientadores
+                    </f:facet>
+
+                    <p:column headerText="Matrícula" sortBy="#{orientador.matricula}" width="8%">
+                        <h:outputText value="#{orientador.matricula}" />
+                    </p:column>
+
+                    <p:column headerText="CPF" sortBy="#{orientador.cpf}">
+                        <h:outputText value="#{orientador.cpf}" />
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{orientador.nome}" filterBy="#{orientador.nome}">
+                        <h:outputText value="#{orientador.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Login" sortBy="#{orientador.login}">
+                        <h:outputText value="#{orientador.login}" />
+                    </p:column>
+
+                    <p:column headerText="Area de Atuação" sortBy="#{orientador.areaAtuacao}" filterBy="#{orientador.areaAtuacao}">
+                        <h:outputText value="#{orientador.areaAtuacao}" />
+                    </p:column>
+
+                    <p:column headerText="Formação Acadêmica" sortBy="#{orientador.formAcademica}" filterBy="#{orientador.formAcademica}">
+                        <h:outputText value="#{orientador.formAcademica}" />
+                    </p:column>
+
+
+                    <f:facet name="footer">
+                        <p:commandButton process="tblOrientador" value="Excluir" id="btnExcluir" update=":form:orientadorDetail" icon="ui-icon-trash" oncomplete="PF('orientadorDialog').show()" />
+                        <p:commandButton process="tblOrientador" value="Editar" id="btnEditar" update=":form:orientadorDetailEditar" icon="ui-icon-pencil" oncomplete="PF('orientadorDialogEditar').show()" />
+                        <p:commandButton action="OrientadorCad.xhtml" value="Novo" />
+
+
+                    </f:facet>
+
+                </p:dataTable>
+                <!-- DIALOG PARA EXCLUSÃO ================================= -->
+                <p:dialog header="Deseja relamente excluir? " widgetVar="orientadorDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="orientadorDetail" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty orientadorBean.selectOrientador}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula" />
+                                <h:outputText value="#{orientadorBean.selectOrientador.matricula}" />
+
+                                <h:outputText value="Nome" />
+                                <h:outputText value="#{orientadorBean.selectOrientador.nome}" />
+
+                                <h:outputText value="CPF " />
+                                <h:outputText value="#{orientadorBean.selectOrientador.cpf}"/>
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Sim" 
+                                         actionListener="#{orientadorBean.excluir()}" 
+                                         onclick="orientadorDialog.window.close()"
+                                         update="tblOrientador" icon="ui-icon-trash"/>
+
+
+                        <p:commandButton value="Não" immediate="true"
+                                         ajax="false"
+                                         onclick="orientadorDialog.window.close()"/>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+                <!-- DIALOG PARA EDIÇÃO ================================= -->
+                <p:dialog header="Faça as alterções necessárias" widgetVar="orientadorDialogEditar" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="orientadorDetailEditar" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty orientadorBean.selectOrientador}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula:"/>
+                                <p:inputText size="8" id="Matricula" disabled="true" value="#{orientadorBean.selectOrientador.matricula}" placeholder="#{orientadorBean.selectOrientador.matricula}"/>
+
+                                <h:outputText value="CPF:" />
+                                <p:inputMask mask="999.999.999-99" size="14" id="txtCPF" value="#{orientadorBean.selectOrientador.cpf}"/>
+
+                                <h:outputText value="Nome:" style="text-align: right" />
+                                <p:inputText size="50" id="txtNome" value="#{orientadorBean.selectOrientador.nome}"/>
+
+                                <h:outputText value="Login:" />
+                                <p:inputText size="50" value="#{orientadorBean.selectOrientador.login}"  id="txtLogin"/>
+
+                                <h:outputText value="Senha:" />
+                                <p:password size="20" id="txtSenha"  feedback="true" 
+                                            placeholder="*********"
+                                            value="#{orientadorBean.selectOrientador.senha}"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Confirmação de senha: " />
+                                <p:password size="20" id="txtConfSenha"  feedback="true"
+                                            placeholder="*********"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Area de Atuação:" />
+                                <p:inputText maxlength="50" size="50" value="#{orientadorBean.selectOrientador.areaAtuacao}" />
+
+                                <h:outputText value="Formação Academica" />
+                                <p:inputText maxlength="50" size="50" value="#{orientadorBean.selectOrientador.formAcademica}"   />
+
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Confirmar" 
+                                         actionListener="#{orientadorBean.editar()}" 
+                                         icon="ui-icon-pencil" update="tblOrientador" 
+                                         onclick="orientadorDialogEditar.window.close()"
+                                         />
+
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+
+
+        </ui:define>    
+
+    </ui:composition>
+
+</html>
+

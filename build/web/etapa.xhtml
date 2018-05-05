@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+
+        <ui:define name="content">
+
+            <h:form>
+
+                <p:panel header="Etapa 1 → Definiçoes e Aceite" style="display: inline-table; margin: 8px; width: 98 " >
+                    <p:progressBar value="10" style="height:20px" labelTemplate="{value}%" displayOnly="true"/>
+
+                    <div class="ui-g-8">
+                        <p> Definição do tema, seleção do tutor do TCC a orientar o trabalho e definição dos capítulos 
+                            que comporão o trabalho, em conjunto com o orientador (título e o que será incluído nos capítulos – 
+                            apenas uma breve descrição) </p>
+                            
+                        <h:panelGrid columns="4" cellpadding="8" style="background-color: #dddddd; border-radius: 5px; margin: 5px">  
+                            <h:outputText  value="Arquivo TCC:"/>
+                            <p:button value="Carregar arquivo" />
+
+                            <h:outputText  value="Nota:"/>
+                            <p:inputMask mask="99.99" id="nota" value="#{tccBean.tccCad.nota}"/>
+                        </h:panelGrid>
+                    </div>
+
+                    <div class="ui-g-4">
+                        <h:panelGrid columns="2" cellpadding="8" style="background-color: #dddddd; box-shadow: 2px 2px 2px; border-radius: 5px; margin: 5px; font-style: italic" >  
+                            <p:outputLabel  value="Data Limite: "/> <p:outputLabel  value="01/06/2018"/>
+                            <p:outputLabel  value="Entregue em:"/> <p:outputLabel  value="01/06/2018"/>
+                        </h:panelGrid>
+                    </div>
+
+                </p:panel>
+
+                
+                <p:panel header="Etapa 2 → Trabalhos Relacionados" style="display: inline-table; margin: 8px; width: 98%" >
+                    <p:progressBar value="25" style="height:20px" labelTemplate="{value}%" displayOnly="true"/>
+
+                    <div class="ui-g-8">
+                        
+                        <p> Escrita do capítulo de “trabalhos relacionados” e/ou “um breve histórico relacionado ao 
+                            tema”, dependendo da estrutura do trabalho e da proposta, geralmente incluído no segundo capítulo. 
+                        </p>
+                        
+                        <h:panelGrid columns="4" cellpadding="8" style="background-color: #DFDFDF; border-radius: 5px; margin: 5px">  
+                            <h:outputText  value="Arquivo TCC:"/>
+                            <p:button value="Carregar arquivo" />
+
+                            <h:outputText  value="Nota:"/>
+                            <p:inputMask mask="99.99"  value="#{tccBean.tccCad.nota}"/>
+                        </h:panelGrid>
+                    </div>
+
+                    <div class="ui-g-4">
+                        <h:panelGrid columns="2" cellpadding="8" style="background-color: #DFDFDF; box-shadow: 2px 2px 2px; border-radius: 5px; margin: 5px; font-style: italic" >  
+                            <p:outputLabel  value="Data Limite: "/> <p:outputLabel  value="01/06/2018"/>
+                            <p:outputLabel  value="Entregue em:"/> <p:outputLabel  value="01/06/2018"/>
+                        </h:panelGrid>
+                    </div>
+
+                </p:panel>
+
+                
+                
+                <p:panel header="Etapa 3 → Parte do Trabalho" style="display: inline-table; margin: 8px; width: 98%"  >
+                    <p:progressBar value="25" style="height:20px" labelTemplate="{value}%" displayOnly="true"/>
+
+                    <div class="ui-g-8">
+                        
+                        <p> Restante do trabalho pronto,
+                            exceto resumo, introdução, conclusões, trabalhos futuros e detalhes de formatação
+                        </p>
+                        
+                        <h:panelGrid columns="4" cellpadding="8" style="background-color: #DFDFDF; border-radius: 5px; margin: 5px">  
+                            <h:outputText  value="Arquivo TCC:"/>
+                            <p:button value="Carregar arquivo" />
+
+                            <h:outputText  value="Nota:"/>
+                            <p:inputMask mask="99.99"  value="#{tccBean.tccCad.nota}"/>
+                        </h:panelGrid>
+                    </div>
+
+                    <div class="ui-g-4">
+                        <h:panelGrid columns="2" cellpadding="8" style="background-color: #DFDFDF; box-shadow: 2px 2px 2px; border-radius: 5px; margin: 5px; font-style: italic" >  
+                            <p:outputLabel  value="Data Limite: "/> <p:outputLabel  value="01/06/2018"/>
+                            <p:outputLabel  value="Entregue em:"/> <p:outputLabel  value="01/06/2018"/>
+                        </h:panelGrid>
+                    </div>
+
+                </p:panel>
+
+                <p:panel header="Etapa 4 → Finalização do Trabalho" style="display: inline-table; margin: 8px; width: 98 " >
+                    <p:progressBar value="10" style="height:20px" labelTemplate="{value}%" displayOnly="true"/>
+
+                    <div class="ui-g-8">
+                        <p> Finalização do trabalho e entrega da versão em formato de edição, ou seja, 
+                            tudo o que não foi incluído na terceira etapa, (.doc ou .odt) para ser submetido
+                            à banca de avaliação 
+                        </p>
+                            
+                        <h:panelGrid columns="4" cellpadding="8" style="background-color: #dddddd; border-radius: 5px; margin: 5px">  
+                            <h:outputText  value="Arquivo TCC:"/>
+                            <p:button value="Carregar arquivo" />
+
+                            <h:outputText  value="Nota:"/>
+                            <p:inputMask mask="99.99" value="#{tccBean.tccCad.nota}"/>
+                        </h:panelGrid>
+                    </div>
+
+                    <div class="ui-g-4">
+                        <h:panelGrid columns="2" cellpadding="8" style="background-color: #dddddd; box-shadow: 2px 2px 2px; b00000000000000000000000000000000000000000000
+                                     
+                                     
+                                     
+                                     
+                                     
+                                     
+                                     
+                                     00border-radius: 5px; margin: 5px; font-style: italic" >  
+                            <p:outputLabel  value="Data Limite: "/> <p:outputLabel  value="01/06/2018"/>
+                            <p:outputLabel  value="Entregue em:"/> <p:outputLabel  value="01/06/2018"/>
+                        </h:panelGrid>
+                    </div>
+
+                </p:panel>
+                
+                
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>
+

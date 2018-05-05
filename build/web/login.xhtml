@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>.: SYSTCC - Login :.</title>
+
+        <!-- https://youtu.be/KHewzYwC6d0 -->
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet"  type="text/css" href="resources/css/style_login.css"/>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--JavaScript at end of body for optimized loading-->
+        <script type="text/javascript" src="resources/js/materialize.min.js"/>
+    </h:head>
+
+
+    <h:body styleClass="cyan lighten-5">
+
+        <p:growl id="msgGlobal"/>
+
+
+        <div class="valign-wrapper" id="login-page">
+            <div class="container">
+                <div class="center-align">
+                    <div class="row">
+                        <div class="class s6 offset-s3">
+                            <div class="card">
+                                <div class="card-content">
+                                    <img class="responsive-img" style="max-width: 140px" src="resources/img/logo_tccweb.jpg"/>
+                                    <div class="left-align">
+                                        <h:form>
+                                            <p:growl autoUpdate="true" />
+                                            <div align="center" class="row">
+                                                <div class="col s12 input-field">
+                                                    
+                                                    <p:inputText id="login" value="#{atenticacaoBean.usuarioLogado.login}" required="true" requiredMessage="Campo login é obrigatório"/>
+                                                    <h:outputLabel for="login" value="Login"/>
+                                                </div>
+                                                
+                                                <div class="col s12 input-field">
+                                                    <p:password id="senha" value="#{atenticacaoBean.usuarioLogado.senha}" required="true" requiredMessage="Campo senha é obrigatório"/>
+                                                    <h:outputLabel for="senha" value="Senha"/>
+                                            
+                                                </div>
+                                                
+                                                <div align="center" class="col s12 input-field">
+                                                    <p:commandButton value="Entrar" update=":msgGlobal:" 
+                                                                     styleClass="btn btn-large" 
+                                                                     ajax="false" 
+                                                                     action="#{atenticacaoBean.logar()}" />
+                                                    <br/><br/>
+                                                
+                                                </div>
+                                                <h:commandLink value="Esqueci minha senha" styleClass="btn-block" />
+                                            </div>
+                                            
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            <img align="center" class="responsive-img" style="max-width:90px" src="resources/img/logo dem.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </h:body>
+</html>
+

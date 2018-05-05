@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{coordenadorBean.carregar()}" type="preRenderView"/>
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h:form>
+                
+                <center>
+                    <h3> <i> Cadastro de Usuários </i> <hr/> </h3>
+
+
+                    <h:panelGrid id="pnlCadUsuario" columns="3" cellspacing="20px" style="align-items: center; font-size: 18px">
+
+                        <p:commandButton value="Cadastrar Aluno" immediate="true" action="AlunoCad.xhtml"
+                                         style="width: 180px;height: 70px; box-shadow: 3px 4px 8px 0px darkslategrey; color: white; font-family: Copperplate Gothic Light;"/>
+                        <p:commandButton value="Cadastrar Orientador" 
+                                         style="width: 180px;height: 70px; box-shadow: 3px 4px 8px 0px darkslategrey; color: white; font-family: Copperplate Gothic Light;"/>
+                        <p:commandButton value="Cadastrar Coordenador" 
+                                         style="width: 180px;height: 70px; box-shadow: 3px 4px 8px 0px darkslategrey; color: white; font-family: Copperplate Gothic Light;"/>
+
+                        <p:commandButton value="Pesquisar Alunos" 
+                                         style="width: 180px;height: 70px; box-shadow: 3px 4px 8px 0px darkslategrey; color: white; font-family: Copperplate Gothic Light;"/>
+                        <p:commandButton value="Pesquisar Alunos" 
+                                         style="width: 180px;height: 70px; box-shadow: 3px 4px 8px 0px darkslategrey; color: white; font-family: Copperplate Gothic Light;"/>
+                        <p:commandButton value="Pesquisar Alunos" 
+                                         style="width: 180px;height: 70px; box-shadow: 3px 4px 8px 0px darkslategrey; color: white; font-family: Copperplate Gothic Light;"/>
+
+                    </h:panelGrid>
+                </center>
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

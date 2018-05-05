@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{tccBean.carregar}" type="preRenderView" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h4> <i> Relatório Tcc's </i> <hr/> </h4>
+
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:dataTable id="tblTcc" var="tcc" value="#{tccBean.listaTcc}"
+                             filteredValue="#{tccBean.listaTccFiltro}"
+                             selectionMode="single" selection="#{tccBean.selectTcc}" 
+                             rowKey="#{tcc.id_tcc}"
+                             rows="10" paginator="true">
+
+                    <f:facet name="header">
+                        Lista de Tcc's
+                    </f:facet>
+
+                    <p:column headerText="Id" sortBy="#{tcc.id_tcc}" width="6%">
+                        <h:outputText value="#{tcc.id_tcc}" />
+                    </p:column>
+
+                    <p:column headerText="Data de inicio" sortBy="#{tcc.data}" width="8%">
+                        <h:outputText value="#{tcc.data}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Tema" sortBy="#{tcc.tema}" width="25%">
+                        <h:outputText value="#{tcc.tema}" />
+                    </p:column>
+
+                    <p:column headerText="Descrição" sortBy="#{tcc.descricao}">
+                        <h:outputText value="#{tcc.descricao}" />
+                    </p:column>
+
+                    <p:column headerText="Nota Final" sortBy="#{tcc.nota}" width="6%">
+                        <h:outputText value="#{tcc.nota}" />
+                    </p:column>
+
+
+                    <f:facet name="footer">
+                        <p:commandButton process="tblTcc" value="Excluir" id="btnExcluir" update=":form:tccDetail" icon="ui-icon-trash" oncomplete="PF('tccDialog').show()" />
+                        <p:commandButton process="tblTcc" value="Editar" id="btnEditar" update=":form:tccDetailEditar" icon="ui-icon-pencil" oncomplete="PF('tccDialogEditar').show()" />
+                        <p:commandButton action="TccCad.xhtml" value="Novo" />
+
+
+                    </f:facet>
+
+                </p:dataTable>
+                <!-- DIALOG PARA EXCLUSÃO ================================= -->
+                <p:dialog header="Deseja relamente excluir? " widgetVar="tccDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="tccDetail" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty tccBean.selectTcc}" columnClasses="label,value">
+
+                                <h:outputText value="Id" />
+                                <h:outputText value="#{tccBean.selectTcc.id_tcc}" />
+
+                                <h:outputText value="Tema" />
+                                <h:outputText value="#{tccBean.selectTcc.tema}" />
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Sim" 
+                                         actionListener="#{tccBean.excluir()}" 
+                                         onclick="tccDialog.window.close()"
+                                         update="tblTcc" icon="ui-icon-trash"/>
+
+
+                        <p:commandButton value="Não" immediate="true"
+                                         ajax="false"
+                                         onclick="tccDialog.window.close()"/>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+                <!-- DIALOG PARA EDIÇÃO ================================= -->
+                <p:dialog header="Faça as alterções necessárias" widgetVar="tccDialogEditar" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="tccDetailEditar" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty tccBean.selectTcc}" columnClasses="label,value">
+
+                                <h:outputText value="Código:"/>
+                                <p:inputText size="8" id="Id" disabled="true" value="#{tccBean.selectTcc.id_tcc}" placeholder="#{tccBean.selectTcc.id_tcc}"/>
+
+                                <h:outputText value="Tema:" />
+                                <p:inputText value="#{tccBean.selectTcc.tema}"/>
+
+                                <h:outputText value="Data de inicio:" style="text-align: right" />
+                                <p:inputText value="#{tccBean.selectTcc.data}"/>
+
+                                <h:outputText value="Descrição" />
+                                <p:inputTextarea cols="90" rows="8" value="#{tccBean.selectTcc.descricao}" />
+
+                                <h:outputText  value="Nota Final:"/>
+                                <p:inputMask mask="99.99" id="nota"/>
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Confirmar" 
+                                         actionListener="#{tccBean.editar()}" 
+                                         icon="ui-icon-pencil" update="tblTcc" 
+                                         onclick="tccDialogEditar.window.close()"
+                                         />
+
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+
+
+        </ui:define>    
+
+    </ui:composition>
+
+</html>
+

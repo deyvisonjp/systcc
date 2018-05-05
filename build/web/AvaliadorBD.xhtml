@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{avaliadorBean.carregar}" type="preRenderView" />
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+
+            <h4> <i> Relatório Avaliador </i> <hr/> </h4>
+
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:dataTable id="tblAvaliador" var="avaliador" value="#{avaliadorBean.listaAvaliador}"
+                             filteredValue="#{avaliadorBean.listaAvaliadorFiltro}"
+                             selectionMode="single" selection="#{avaliadorBean.selectAvaliador}" 
+                             rowKey="#{avaliador.matricula}"
+                             rows="10" paginator="true">
+
+                    <f:facet name="header">
+                        Lista de Avaliador
+                    </f:facet>
+
+                    <p:column headerText="Matrícula" sortBy="#{avaliador.matricula}" width="8%">
+                        <h:outputText value="#{avaliador.matricula}" />
+                    </p:column>
+
+                    <p:column headerText="CPF" sortBy="#{avaliador.cpf}">
+                        <h:outputText value="#{avaliador.cpf}" />
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{avaliador.nome}" filterBy="#{avaliador.nome}">
+                        <h:outputText value="#{avaliador.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Login" sortBy="#{avaliador.login}">
+                        <h:outputText value="#{avaliador.login}" />
+                    </p:column>
+
+                    <p:column headerText="Area" sortBy="#{avaliador.area}" filterBy="#{avaliador.area}">
+                        <h:outputText value="#{avaliador.area}" />
+                    </p:column>
+
+                    <p:column headerText="Instituição" sortBy="#{avaliador.instituicao}" filterBy="#{avaliador.instituicao}">
+                        <h:outputText value="#{avaliador.instituicao}" />
+                    </p:column>
+
+                    <p:column headerText="Titulação" sortBy="#{avaliador.titulacao}" filterBy="#{avaliador.titulacao}">
+                        <h:outputText value="#{avaliador.titulacao}" />
+                    </p:column>
+
+
+                    <f:facet name="footer">
+                        <p:commandButton process="tblAvaliador" value="Excluir" id="btnExcluir" update=":form:avaliadorDetail" icon="ui-icon-trash" oncomplete="PF('avaliadorDialog').show()" />
+                        <p:commandButton process="tblAvaliador" value="Editar" id="btnEditar" update=":form:avaliadorDetailEditar" icon="ui-icon-pencil" oncomplete="PF('avaliadorDialogEditar').show()" />
+                        <p:commandButton action="AvaliadorCad.xhtml" value="Novo" />
+
+
+                    </f:facet>
+
+                </p:dataTable>
+
+                <!-- DIALOG PARA EXCLUSÃO ================================= -->
+                <p:dialog header="Deseja relamente excluir? " widgetVar="avaliadorDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="avaliadorDetail" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty avaliadorBean.selectAvaliador}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula" />
+                                <h:outputText value="#{avaliadorBean.selectAvaliador.matricula}" />
+
+                                <h:outputText value="Nome" />
+                                <h:outputText value="#{avaliadorBean.selectAvaliador.nome}" />
+
+                                <h:outputText value="CPF " />
+                                <h:outputText value="#{avaliadorBean.selectAvaliador.cpf}"/>
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Sim" 
+                                         actionListener="#{avaliadorBean.excluir()}" 
+                                         ajax="false"
+                                         onclick="avaliadorDialog.window.close()"
+                                         update="tblAvaliador" icon="ui-icon-trash"/>
+
+
+                        <p:commandButton value="Não" immediate="true"
+                                         ajax="false"
+                                         onclick="avaliadorDialog.window.close()"/>
+
+                    </p:outputPanel>
+                </p:dialog>
+
+                <!-- DIALOG PARA EDIÇÃO ================================= -->
+                <p:dialog header="Faça as alterções necessárias" widgetVar="avaliadorDialogEditar" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="avaliadorDetailEditar" style="text-align:center;"> 
+                        <center>
+                            <p:panelGrid  columns="2" rendered="#{not empty avaliadorBean.selectAvaliador}" columnClasses="label,value">
+
+                                <h:outputText value="Matricula:"/>
+                                <p:inputText size="8" id="Matricula" disabled="true" value="#{avaliadorBean.selectAvaliador.matricula}" placeholder="#{avaliadorBean.selectAvaliador.matricula}"/>
+
+                                <h:outputText value="CPF:" />
+                                <p:inputMask mask="999.999.999-99" size="14" id="txtCPF" value="#{avaliadorBean.selectAvaliador.cpf}"/>
+
+                                <h:outputText value="Nome:" style="text-align: right" />
+                                <p:inputText size="50" id="txtNome" value="#{avaliadorBean.selectAvaliador.nome}"/>
+
+                                <h:outputText value="Login:" />
+                                <p:inputText size="50" value="#{avaliadorBean.selectAvaliador.login}"  id="txtLogin"/>
+
+                                <h:outputText value="Senha:" />
+                                <p:password size="20" id="txtSenha"  feedback="true" 
+                                            placeholder="*********"
+                                            value="#{avaliadorBean.selectAvaliador.senha}"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Confirmação de senha: " />
+                                <p:password size="20" id="txtConfSenha"  feedback="true"
+                                            placeholder="*********"
+                                            promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                            goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                                <h:outputText value="Area" />
+                                <p:inputText maxlength="30" size="40" value="#{avaliadorBean.selectAvaliador.area}"   />
+
+                                <h:outputText value="Instituição" />
+                                <p:inputText maxlength="30" size="40" value="#{avaliadorBean.selectAvaliador.instituicao}" />
+
+                                <h:outputText value="Titulação" />
+                                <p:inputText maxlength="30" size="40" value="#{avaliadorBean.selectAvaliador.titulacao}" />
+
+
+                            </p:panelGrid>
+                        </center>
+
+                        <hr/>
+                        <p:commandButton value="Confirmar" 
+                                         actionListener="#{avaliadorBean.editar()}" 
+                                         icon="ui-icon-pencil" update="tblAvaliador" 
+                                         onclick="avaliadorDialogEditar.window.close()"
+                                         />
+
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+
+
+        </ui:define>    
+
+    </ui:composition>
+
+</html>
+

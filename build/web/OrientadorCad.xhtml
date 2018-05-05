@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="principal.xhtml">
+
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:event listener="#{orientadorBean.carregar()}" type="preRenderView"/>
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="content">
+            <h4> <i> Cadastro de Orientadores </i> <hr/> </h4>
+
+            <h:form id="frmCadOrientador">
+
+                <p:growl id="growl" showDetail="true" />
+
+                <h:panelGrid id="pnlCadUsuario" columns="2" cellspacing="8px"  columnClasses="colunaEsquerda,colunaDireita" >
+
+                    <h:outputText value="Matricula:"/>
+                    <p:inputText size="8" disabled="true" id="Matricula" placeholder="Matricula"/>
+
+                    <h:outputText value="CPF:" />
+                    <p:inputMask mask="999.999.999-99" size="14" id="txtCPF" value="#{orientadorBean.orientadorCad.cpf}"/>
+
+
+                    <h:outputText value="Nome:" style="text-align: right" />
+                    <p:inputText size="50" id="txtNome" value="#{orientadorBean.orientadorCad.nome}"/>
+
+                    <h:outputText value="Login:" />
+                    <p:inputText size="50" id="txtLogin" value="#{orientadorBean.orientadorCad.login}"/>
+
+                    <h:outputText value="Senha:" />
+                    <p:password size="20" id="txtSenha"  feedback="true" value="#{orientadorBean.orientadorCad.senha}"
+                                redisplay="true"
+                                promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                    <h:outputText value="Confirme a senha:" />
+                    <p:password size="20" id="txtConfSenha"  feedback="true"
+                                promptLabel="Por Favor, digite sua senha." weakLabel="Fraca"
+                                goodLabel="Razoavel" strongLabel="Excelente"/>
+
+                    <h:outputText value="Nivel Usuário" />
+                    <p:inputText value="Orientador" placeholder="Orientador" disabled="true"/>
+
+                    <h:outputText value="Area de atuação" />
+                    <p:inputText maxlength="50" size="50" value="#{orientadorBean.orientadorCad.areaAtuacao}" />
+
+                    <h:outputText value="Formação Acadêmica:" />
+                    <p:inputText maxlength="50" size="50" value="#{orientadorBean.orientadorCad.formAcademica}" />
+
+
+                </h:panelGrid>
+
+                <img src="resources/img/new_orientador.png"  style="position:absolute ;width: 230px; margin-top: -300px; margin-left: 600px"/>
+
+                <h:panelGrid columns="3">
+
+                    <p:commandButton value="Salvar" actionListener="#{orientadorBean.salvar()}"
+                                     update="frmCadOrientador" icon="ui-icon-disk"/>
+
+                    <p:commandButton value="Limpar"/>
+
+                    <p:commandButton value="Listar Orientadores" immediate="true" action="#{orientadorBean.listar()}" />
+
+                </h:panelGrid>
+
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>
+
